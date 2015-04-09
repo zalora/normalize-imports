@@ -1,7 +1,7 @@
 
 module Main where
 
-import NormalizeImports
+import           NormalizeImports
 
 main :: IO ()
 main = interact normalizeImports

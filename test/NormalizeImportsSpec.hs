@@ -1,9 +1,9 @@
 
 module NormalizeImportsSpec where
 
-import Test.Hspec
+import           Test.Hspec
 
-import NormalizeImports
+import           NormalizeImports
 
 main :: IO ()
 main = hspec spec

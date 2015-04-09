@@ -2,8 +2,8 @@
 
 module NormalizeImports (normalizeImports) where
 
-import Data.List
-import Data.Char
+import           Data.Char
+import           Data.List
 
 importPrefix :: String
 importPrefix = "import "
