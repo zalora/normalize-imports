@@ -1,0 +1,16 @@
+dependencies:
+  - base == 4.*
+
+ghc-options: -Wall
+
+executables:
+  normalize-imports:
+    main: Main.hs
+    source-dirs: src
+
+tests:
+  spec:
+    main: Spec.hs
+    source-dirs: test, src
+    dependencies:
+      - hspec
