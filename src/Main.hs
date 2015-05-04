@@ -2,6 +2,7 @@
 module Main where
 
 import           NormalizeImports
+import           SortPragmas
 
 main :: IO ()
-main = interact normalizeImports
+main = interact (normalizePragmas . normalizeImports)

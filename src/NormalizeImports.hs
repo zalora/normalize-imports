@@ -1,32 +1,15 @@
-{-# LANGUAGE DeriveFunctor #-}
-
 module NormalizeImports (normalizeImports) where
 
 import           Data.Char
 import           Data.List
+
+import           Types
 
 importPrefix :: String
 importPrefix = "import "
 
 importQualified :: String
 importQualified = "import qualified "
-
-data Lines a = Verbatim [String] | Imports a
-  deriving Functor
-
-toLines :: [String] -> [Lines [String]]
-toLines xs = case break isImportLine xs of
-  (verbatim, ys) -> Verbatim verbatim : case span isImportLine ys of
-      ([], []) -> []
-      (imports, rest) -> Imports imports : toLines rest
-
-fromLines :: [Lines [String]] -> [String]
-fromLines = concatMap f
-  where
-    f :: Lines [String] -> [String]
-    f xs = case xs of
-      Verbatim ys -> ys
-      Imports ys -> ys
 
 isImportLine :: String -> Bool
 isImportLine = isPrefixOf importPrefix
@@ -35,7 +18,7 @@ normalizeImports :: String -> String
 normalizeImports = unlines . sortImports . map alignImport . lines
 
 sortImports :: [String] -> [String]
-sortImports = fromLines . map (fmap $ sortBy compareByModuleName) . toLines
+sortImports = fromLines . map (fmap $ sortBy compareByModuleName) . toLines isImportLine
 
 compareByModuleName :: String -> String -> Ordering
 compareByModuleName a b = compare (dropImport a) (dropImport b)
