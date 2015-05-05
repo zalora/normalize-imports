@@ -1,8 +1,8 @@
-module SortPragmasSpec where
+module NormalizePragmasSpec where
 
 import           Test.Hspec
 
-import           SortPragmas
+import           NormalizePragmas
 
 spec :: Spec
 spec = do
@@ -26,18 +26,13 @@ spec = do
       let input = ["{-#  LANGUAGE A    #-}"]
       normalizePragmas (unlines input) `shouldBe` unlines input
 
-    it "preserves spaces between pragmas" $ do
+    it "preserves lines that are not language pragmas or ghc options" $ do
       let input = [
-              "{-# LANGUAGE B #-}"
-            , ""
+              "{- First line }-"
+            , "{-# LANGUAGE B #-}"
+            , "{- Here we have"
+            , "a multiple line comment -}"
             , "{-# LANGUAGE A #-}"
-            ]
-      normalizePragmas (unlines input) `shouldBe` unlines input
-
-    it "allows shebang before pragmas" $ do
-      let input = [
-              "#!/usr/bin/env something"
-            , ""
-            , "{-# LANGUAGE A #-}"
+            , "{-# INCLUDE <fp.h> #-}"
             ]
       normalizePragmas (unlines input) `shouldBe` unlines input
