@@ -22,6 +22,25 @@ spec = do
             ]
       normalizePragmas (unlines input) `shouldBe` unlines output
 
+    it "sorts consecutive blocks of pragma" $ do
+      let input = [
+              "{-# LANGUAGE C #-}"
+            , "{-# LANGUAGE D #-}"
+            , "{-# LANGUAGE B #-}"
+            , ""
+            , "{-# LANGUAGE E #-}"
+            , "{-# LANGUAGE A #-}"
+            ]
+          output = [
+              "{-# LANGUAGE B #-}"
+            , "{-# LANGUAGE C #-}"
+            , "{-# LANGUAGE D #-}"
+            , ""
+            , "{-# LANGUAGE A #-}"
+            , "{-# LANGUAGE E #-}"
+            ]
+      normalizePragmas (unlines input) `shouldBe` unlines output
+
     it "preserves spaces inside pragmas" $ do
       let input = ["{-#  LANGUAGE A    #-}"]
       normalizePragmas (unlines input) `shouldBe` unlines input
@@ -36,3 +55,4 @@ spec = do
             , "{-# INCLUDE <fp.h> #-}"
             ]
       normalizePragmas (unlines input) `shouldBe` unlines input
+
